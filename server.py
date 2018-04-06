@@ -1,20 +1,12 @@
 import cherrypy
 
-class ScoutServer(object):
+class Root(object):
     @cherrypy.expose
     def index(self):
-        return '''
-            <html>
-                <head>
-                    <title>{0}</title>
-                </head>
-            </html>'''.format("Hello World")
-'''
-
+        return "Hello World!"
 conf = {
          '/': {
                  'tools.sessions.on': True,
-                 'tools.staticdir.root': os.path.abspath(os.getcwd())
          },
          '/static': {
                  'tools.staticdir.on': True,
@@ -22,9 +14,11 @@ conf = {
          },
         'global': {
                 'server.socket_host': '0.0.0.0',
-                'server.socket_port': 80
+                'server.socket_port': 80,
+                'server.thread_pool':10
         }
 }
+if __name__ == '__main__':
+    cherrypy.quickstart(Root(), '/', conf)
 
-cherrypy.quickstart(ScoutServer(), '/', conf)
-'''
+
